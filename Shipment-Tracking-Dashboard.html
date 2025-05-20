@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Your Shipment | Express Shipping & Logistics</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>
+tailwind.config={
+theme:{
+extend:{
+colors:{
+primary:'#3b82f6',
+secondary:'#64748b'
+},
+borderRadius:{
+'none':'0px',
+'sm':'4px',
+DEFAULT:'8px',
+'md':'12px',
+'lg':'16px',
+'xl':'20px',
+'2xl':'24px',
+'3xl':'32px',
+'full':'9999px',
+'button':'8px'
+}
+}
+}
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Inter', sans-serif;
+}
+.tracking-input:focus {
+outline: none;
+box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+.custom-checkbox {
+appearance: none;
+-webkit-appearance: none;
+width: 18px;
+height: 18px;
+border: 2px solid #cbd5e1;
+border-radius: 4px;
+outline: none;
+cursor: pointer;
+position: relative;
+}
+.custom-checkbox:checked {
+background-color: #3b82f6;
+border-color: #3b82f6;
+}
+.custom-checkbox:checked::after {
+content: '';
+position: absolute;
+top: 2px;
+left: 5px;
+width: 5px;
+height: 10px;
+border: solid white;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+.custom-radio {
+appearance: none;
+-webkit-appearance: none;
+width: 18px;
+height: 18px;
+border: 2px solid #cbd5e1;
+border-radius: 50%;
+outline: none;
+cursor: pointer;
+position: relative;
+}
+.custom-radio:checked {
+border-color: #3b82f6;
+}
+.custom-radio:checked::after {
+content: '';
+position: absolute;
+top: 3px;
+left: 3px;
+width: 8px;
+height: 8px;
+border-radius: 50%;
+background-color: #3b82f6;
+}
+.custom-switch {
+position: relative;
+display: inline-block;
+width: 44px;
+height: 24px;
+}
+.custom-switch input {
+opacity: 0;
+width: 0;
+height: 0;
+}
+.switch-slider {
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #cbd5e1;
+transition: .4s;
+border-radius: 24px;
+}
+.switch-slider:before {
+position: absolute;
+content: "";
+height: 18px;
+width: 18px;
+left: 3px;
+bottom: 3px;
+background-color: white;
+transition: .4s;
+border-radius: 50%;
+}
+input:checked + .switch-slider {
+background-color: #3b82f6;
+}
+input:checked + .switch-slider:before {
+transform: translateX(20px);
+}
+.timeline-dot {
+width: 16px;
+height: 16px;
+border-radius: 50%;
+background-color: #e2e8f0;
+border: 3px solid #fff;
+box-shadow: 0 0 0 1px #cbd5e1;
+z-index: 10;
+}
+.timeline-dot.active {
+background-color: #3b82f6;
+box-shadow: 0 0 0 1px #3b82f6;
+}
+.timeline-line {
+position: absolute;
+top: 8px;
+left: 8px;
+bottom: -20px;
+width: 1px;
+background-color: #e2e8f0;
+z-index: 1;
+}
+.timeline-item:last-child .timeline-line {
+display: none;
+}
+.map-container {
+background-image: url('https://public.readdy.ai/gen_page/map_placeholder_1280x720.png');
+background-size: cover;
+background-position: center;
+}
+</style>
+</head>
+<body class="bg-gray-50">
+<!-- Main Content -->
+<main class="py-10">
+<div class="container mx-auto px-4">
+<div class="max-w-4xl mx-auto">
+<!-- Tracking Input Section -->
+<section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+<h1 class="text-2xl font-bold text-gray-900 mb-6">Track Your Shipment</h1>
+<div class="mb-6">
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex-grow relative">
+<input type="text" id="tracking-number" placeholder="Enter your tracking number" class="tracking-input w-full px-4 py-3 border border-gray-200 rounded text-gray-800 text-base">
+<div class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center text-gray-400 cursor-pointer" id="clear-input">
+<i class="ri-close-line"></i>
+</div>
+</div>
+<button id="track-button" class="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded font-medium whitespace-nowrap !rounded-button">Track Shipment</button>
+</div>
+<div class="mt-2 text-sm text-gray-500">
+Enter your tracking number to get real-time updates on your shipment status.
+</div>
+</div>
+<div class="border-t border-gray-100 pt-4">
+<div class="flex items-center justify-between mb-3">
+<h3 class="text-sm font-medium text-gray-700">Recent Tracking</h3>
+<button class="text-primary text-sm hover:underline">Clear All</button>
+</div>
+<div class="space-y-2">
+<div class="flex items-center justify-between p-3 bg-gray-50 rounded hover:bg-gray-100 cursor-pointer">
+<div>
+<div class="font-medium text-gray-800">EXP10092547863</div>
+<div class="text-sm text-gray-500">Tracked on May 16, 2025</div>
+</div>
+<div class="flex items-center">
+<span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full mr-3">In Transit</span>
+<div class="w-6 h-6 flex items-center justify-center text-gray-400">
+<i class="ri-arrow-right-s-line"></i>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 bg-gray-50 rounded hover:bg-gray-100 cursor-pointer">
+<div>
+<div class="font-medium text-gray-800">EXP10087654321</div>
+<div class="text-sm text-gray-500">Tracked on May 14, 2025</div>
+</div>
+<div class="flex items-center">
+<span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full mr-3">Delivered</span>
+<div class="w-6 h-6 flex items-center justify-center text-gray-400">
+<i class="ri-arrow-right-s-line"></i>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Tracking Results Section (initially hidden) -->
+<section id="tracking-results" class="bg-white rounded-lg shadow-lg p-8 mb-8 hidden">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h2 class="text-xl font-bold text-gray-900 mb-1">Shipment Status</h2>
+<div class="text-sm text-gray-500">Tracking Number: <span class="font-medium text-gray-700">EXP10098765432</span></div>
+</div>
+<div class="flex space-x-3">
+<button class="flex items-center text-gray-600 hover:text-primary">
+<div class="w-5 h-5 flex items-center justify-center mr-1">
+<i class="ri-bookmark-line"></i>
+</div>
+<span class="text-sm">Save</span>
+</button>
+<button class="flex items-center text-gray-600 hover:text-primary">
+<div class="w-5 h-5 flex items-center justify-center mr-1">
+<i class="ri-share-line"></i>
+</div>
+<span class="text-sm">Share</span>
+</button>
+<button class="flex items-center text-gray-600 hover:text-primary">
+<div class="w-5 h-5 flex items-center justify-center mr-1">
+<i class="ri-printer-line"></i>
+</div>
+<span class="text-sm">Print</span>
+</button>
+</div>
+</div>
+<!-- Status Card -->
+<div class="bg-gray-50 rounded-lg p-6 mb-8">
+<div class="flex flex-col md:flex-row justify-between">
+<div class="mb-4 md:mb-0">
+<div class="text-sm text-gray-500 mb-1">Current Status</div>
+<div class="flex items-center">
+<div class="w-6 h-6 flex items-center justify-center text-green-500 mr-2">
+<i class="ri-truck-line"></i>
+</div>
+<span class="font-semibold text-green-700">In Transit</span>
+</div>
+<div class="text-sm text-gray-600 mt-1">Last updated: May 17, 2025, 10:23 AM</div>
+</div>
+<div class="mb-4 md:mb-0">
+<div class="text-sm text-gray-500 mb-1">Estimated Delivery</div>
+<div class="font-semibold text-gray-900">May 19, 2025</div>
+<div class="text-sm text-gray-600">By end of day</div>
+</div>
+<div>
+<div class="text-sm text-gray-500 mb-1">Delivery Options</div>
+<button class="flex items-center text-primary hover:text-primary/80 text-sm font-medium">
+<div class="w-5 h-5 flex items-center justify-center mr-1">
+<i class="ri-notification-line"></i>
+</div>
+Set up notifications
+</button>
+<button class="flex items-center text-primary hover:text-primary/80 text-sm font-medium mt-1">
+<div class="w-5 h-5 flex items-center justify-center mr-1">
+<i class="ri-map-pin-line"></i>
+</div>
+Change delivery address
+</button>
+</div>
+</div>
+</div>
+<!-- Shipment Details Tabs -->
+<div class="mb-6">
+<div class="flex border-b border-gray-200">
+<button class="px-6 py-3 text-primary border-b-2 border-primary font-medium">Tracking Details</button>
+<button class="px-6 py-3 text-gray-600 hover:text-gray-900 font-medium">Shipment Info</button>
+<button class="px-6 py-3 text-gray-600 hover:text-gray-900 font-medium">Delivery Options</button>
+</div>
+</div>
+<!-- Tracking Map and Timeline -->
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-8 mb-8">
+<!-- Map View (2/5 width) -->
+<div class="lg:col-span-2">
+<div class="bg-gray-100 rounded-lg overflow-hidden">
+<div class="map-container h-64 rounded-lg"></div>
+</div>
+<div class="mt-4 bg-gray-50 rounded-lg p-4">
+<h3 class="font-medium text-gray-900 mb-2">Shipment Information</h3>
+<div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+<div class="text-gray-500">Service Type:</div>
+<div class="text-gray-900">Express Delivery</div>
+<div class="text-gray-500">Weight:</div>
+<div class="text-gray-900">2.4 kg</div>
+<div class="text-gray-500">Dimensions:</div>
+<div class="text-gray-900">30 × 25 × 15 cm</div>
+<div class="text-gray-500">Shipper:</div>
+<div class="text-gray-900">Global Electronics Ltd</div>
+<div class="text-gray-500">Origin:</div>
+<div class="text-gray-900">London, UK</div>
+<div class="text-gray-500">Destination:</div>
+<div class="text-gray-900">Manchester, UK</div>
+</div>
+</div>
+</div>
+<!-- Timeline (3/5 width) -->
+<div class="lg:col-span-3">
+<h3 class="font-medium text-gray-900 mb-4">Tracking Timeline</h3>
+<div class="space-y-6">
+<!-- Timeline Item 1 -->
+<div class="timeline-item relative pl-8">
+<div class="timeline-line"></div>
+<div class="timeline-dot active absolute left-0 top-0"></div>
+<div>
+<div class="flex items-center">
+<div class="font-medium text-gray-900">In Transit</div>
+<div class="ml-2 px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded-full">Current</div>
+</div>
+<div class="text-sm text-gray-500 mb-1">May 17, 2025, 10:23 AM</div>
+<div class="text-sm text-gray-700">Package in transit to delivery facility in Manchester</div>
+<div class="text-sm text-gray-600">Birmingham Distribution Center, UK</div>
+</div>
+</div>
+<!-- Timeline Item 2 -->
+<div class="timeline-item relative pl-8">
+<div class="timeline-line"></div>
+<div class="timeline-dot active absolute left-0 top-0"></div>
+<div>
+<div class="font-medium text-gray-900">Departed Facility</div>
+<div class="text-sm text-gray-500 mb-1">May 17, 2025, 06:45 AM</div>
+<div class="text-sm text-gray-700">Package has left the sorting facility</div>
+<div class="text-sm text-gray-600">Birmingham Distribution Center, UK</div>
+</div>
+</div>
+<!-- Timeline Item 3 -->
+<div class="timeline-item relative pl-8">
+<div class="timeline-line"></div>
+<div class="timeline-dot active absolute left-0 top-0"></div>
+<div>
+<div class="font-medium text-gray-900">Arrived at Facility</div>
+<div class="text-sm text-gray-500 mb-1">May 16, 2025, 22:17 PM</div>
+<div class="text-sm text-gray-700">Package arrived at sorting facility</div>
+<div class="text-sm text-gray-600">Birmingham Distribution Center, UK</div>
+</div>
+</div>
+<!-- Timeline Item 4 -->
+<div class="timeline-item relative pl-8">
+<div class="timeline-line"></div>
+<div class="timeline-dot active absolute left-0 top-0"></div>
+<div>
+<div class="font-medium text-gray-900">In Transit</div>
+<div class="text-sm text-gray-500 mb-1">May 16, 2025, 15:32 PM</div>
+<div class="text-sm text-gray-700">Package in transit to next facility</div>
+<div class="text-sm text-gray-600">London, UK</div>
+</div>
+</div>
+<!-- Timeline Item 5 -->
+<div class="timeline-item relative pl-8">
+<div class="timeline-dot active absolute left-0 top-0"></div>
+<div>
+<div class="font-medium text-gray-900">Shipment Created</div>
+<div class="text-sm text-gray-500 mb-1">May 16, 2025, 09:15 AM</div>
+<div class="text-sm text-gray-700">Shipping label created, package information received</div>
+<div class="text-sm text-gray-600">London, UK</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Delivery Notifications -->
+<div class="border-t border-gray-200 pt-6">
+<h3 class="font-medium text-gray-900 mb-4">Delivery Notifications</h3>
+<div class="bg-gray-50 rounded-lg p-4 mb-6">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center">
+<div class="w-8 h-8 flex items-center justify-center bg-blue-100 rounded-full text-primary mr-3">
+<i class="ri-notification-3-line"></i>
+</div>
+<div>
+<div class="font-medium text-gray-900">Stay updated on your delivery</div>
+<div class="text-sm text-gray-600">Receive notifications about status changes</div>
+</div>
+</div>
+<label class="custom-switch">
+<input type="checkbox" checked>
+<span class="switch-slider"></span>
+</label>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="flex items-start">
+<input type="checkbox" id="email-notifications" class="custom-checkbox mt-1 mr-3" checked>
+<div>
+<label for="email-notifications" class="font-medium text-gray-800 block mb-1">Email Notifications</label>
+<input type="email" value="user@example.com" class="w-full px-3 py-2 border border-gray-200 rounded text-sm">
+</div>
+</div>
+<div class="flex items-start">
+<input type="checkbox" id="sms-notifications" class="custom-checkbox mt-1 mr-3" checked>
+<div>
+<label for="sms-notifications" class="font-medium text-gray-800 block mb-1">SMS Notifications</label>
+<input type="tel" value="+44 7123 456789" class="w-full px-3 py-2 border border-gray-200 rounded text-sm">
+</div>
+</div>
+</div>
+<div class="mt-4">
+<div class="font-medium text-gray-800 mb-2">Notification Preferences</div>
+<div class="space-y-2">
+<div class="flex items-center">
+<input type="checkbox" id="status-updates" class="custom-checkbox mr-3" checked>
+<label for="status-updates" class="text-gray-700">Status updates</label>
+</div>
+<div class="flex items-center">
+<input type="checkbox" id="delivery-exceptions" class="custom-checkbox mr-3" checked>
+<label for="delivery-exceptions" class="text-gray-700">Delivery exceptions</label>
+</div>
+<div class="flex items-center">
+<input type="checkbox" id="delivery-day" class="custom-checkbox mr-3" checked>
+<label for="delivery-day" class="text-gray-700">Day of delivery notification</label>
+</div>
+<div class="flex items-center">
+<input type="checkbox" id="delivered" class="custom-checkbox mr-3" checked>
+<label for="delivered" class="text-gray-700">Delivered confirmation</label>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-end">
+<button class="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded font-medium whitespace-nowrap !rounded-button">Save Preferences</button>
+</div>
+</div>
+</section>
+<!-- Frequently Asked Questions -->
+<section class="bg-white rounded-lg shadow-lg p-8">
+<h2 class="text-xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+<div class="space-y-4">
+<div class="border border-gray-200 rounded-lg overflow-hidden">
+<button class="flex items-center justify-between w-full px-6 py-4 text-left font-medium text-gray-900 hover:bg-gray-50 focus:outline-none">
+<span>How do I track my shipment?</span>
+<div class="w-5 h-5 flex items-center justify-center text-gray-500">
+<i class="ri-add-line"></i>
+</div>
+</button>
+<div class="px-6 py-4 bg-gray-50 border-t border-gray-200 hidden">
+<p class="text-gray-700">You can track your shipment by entering your tracking number in the tracking field above. Your tracking number can be found in your shipping confirmation email or receipt.</p>
+</div>
+</div>
+<div class="border border-gray-200 rounded-lg overflow-hidden">
+<button class="flex items-center justify-between w-full px-6 py-4 text-left font-medium text-gray-900 hover:bg-gray-50 focus:outline-none">
+<span>What if my tracking information isn't updating?</span>
+<div class="w-5 h-5 flex items-center justify-center text-gray-500">
+<i class="ri-add-line"></i>
+</div>
+</button>
+<div class="px-6 py-4 bg-gray-50 border-t border-gray-200 hidden">
+<p class="text-gray-700">Tracking information may take 24-48 hours to appear in our system after your shipment is created. If your tracking hasn't updated after 48 hours, please contact our customer support team.</p>
+</div>
+</div>
+<div class="border border-gray-200 rounded-lg overflow-hidden">
+<button class="flex items-center justify-between w-full px-6 py-4 text-left font-medium text-gray-900 hover:bg-gray-50 focus:outline-none">
+<span>Can I change my delivery address?</span>
+<div class="w-5 h-5 flex items-center justify-center text-gray-500">
+<i class="ri-add-line"></i>
+</div>
+</button>
+<div class="px-6 py-4 bg-gray-50 border-t border-gray-200 hidden">
+<p class="text-gray-700">Yes, you can request a delivery address change for shipments that haven't been delivered yet. Use the "Change delivery address" option in the tracking details section. Additional fees may apply.</p>
+</div>
+</div>
+<div class="border border-gray-200 rounded-lg overflow-hidden">
+<button class="flex items-center justify-between w-full px-6 py-4 text-left font-medium text-gray-900 hover:bg-gray-50 focus:outline-none">
+<span>How do I report a problem with my delivery?</span>
+<div class="w-5 h-5 flex items-center justify-center text-gray-500">
+<i class="ri-add-line"></i>
+</div>
+</button>
+<div class="px-6 py-4 bg-gray-50 border-t border-gray-200 hidden">
+<p class="text-gray-700">If you're experiencing issues with your delivery, please contact our customer support team through the "Report an Issue" option in the tracking details or call our customer service line at +44 (0) 20 1234 5678.</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-gray-800 text-white pt-16 pb-8">
+<div class="container mx-auto px-4">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+<!-- Company Info -->
+<div>
+<h3 class="text-xl font-semibold mb-4">About Us</h3>
+<p class="text-gray-300 mb-4">We are a global shipping and logistics company dedicated to providing fast, reliable, and secure shipping solutions for businesses and individuals worldwide.</p>
+<div class="flex space-x-4">
+<a href="#" class="text-gray-300 hover:text-white">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-facebook-fill"></i>
+</div>
+</a>
+<a href="#" class="text-gray-300 hover:text-white">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-twitter-x-fill"></i>
+</div>
+</a>
+<a href="#" class="text-gray-300 hover:text-white">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-linkedin-fill"></i>
+</div>
+</a>
+<a href="#" class="text-gray-300 hover:text-white">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-instagram-fill"></i>
+</div>
+</a>
+</div>
+</div>
+<!-- Quick Links -->
+<div>
+<h3 class="text-xl font-semibold mb-4">Quick Links</h3>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-300 hover:text-white">Track Shipment</a></li>
+<li><a href="#" class="text-gray-300 hover:text-white">Ship Now</a></li>
+<li><a href="#" class="text-gray-300 hover:text-white">Shipping Services</a></li>
+<li><a href="#" class="text-gray-300 hover:text-white">Locations</a></li>
+<li><a href="#" class="text-gray-300 hover:text-white">Careers</a></li>
+<li><a href="#" class="text-gray-300 hover:text-white">Contact Us</a></li>
+</ul>
+</div>
+<!-- Contact Info -->
+<div>
+<h3 class="text-xl font-semibold mb-4">Contact Us</h3>
+<ul class="space-y-3">
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center mt-1 mr-3 text-gray-400">
+<i class="ri-map-pin-line"></i>
+</div>
+<span class="text-gray-300">123 Shipping Avenue, London, UK 10001</span>
+</li>
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center mt-1 mr-3 text-gray-400">
+<i class="ri-phone-line"></i>
+</div>
+<span class="text-gray-300">+44 (0) 20 1234 5678</span>
+</li>
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center mt-1 mr-3 text-gray-400">
+<i class="ri-mail-line"></i>
+</div>
+<span class="text-gray-300">support@shippingcompany.com</span>
+</li>
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center mt-1 mr-3 text-gray-400">
+<i class="ri-time-line"></i>
+</div>
+<span class="text-gray-300">Mon-Fri: 8:00 AM - 8:00 PM</span>
+</li>
+</ul>
+</div>
+<!-- Newsletter -->
+<div>
+<h3 class="text-xl font-semibold mb-4">Newsletter</h3>
+<p class="text-gray-300 mb-4">Subscribe to our newsletter for the latest updates and offers.</p>
+<div class="flex mb-4">
+<input type="email" placeholder="Your email address" class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-l text-white text-sm focus:outline-none focus:border-primary">
+<button class="bg-primary hover:bg-primary/90 px-4 py-2 rounded-r whitespace-nowrap !rounded-button">Subscribe</button>
+</div>
+<div>
+<h4 class="text-lg font-medium mb-3">Payment Methods</h4>
+<div class="flex space-x-3">
+<div class="w-10 h-6 bg-white rounded flex items-center justify-center">
+<div class="w-6 h-6 flex items-center justify-center text-blue-700">
+<i class="ri-visa-fill ri-lg"></i>
+</div>
+</div>
+<div class="w-10 h-6 bg-white rounded flex items-center justify-center">
+<div class="w-6 h-6 flex items-center justify-center text-red-600">
+<i class="ri-mastercard-fill ri-lg"></i>
+</div>
+</div>
+<div class="w-10 h-6 bg-white rounded flex items-center justify-center">
+<div class="w-6 h-6 flex items-center justify-center text-blue-500">
+<i class="ri-paypal-fill ri-lg"></i>
+</div>
+</div>
+<div class="w-10 h-6 bg-white rounded flex items-center justify-center">
+<div class="w-6 h-6 flex items-center justify-center text-green-600">
+<i class="ri-bank-card-fill ri-lg"></i>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="border-t border-gray-700 pt-8">
+<div class="flex flex-col md:flex-row justify-between items-center">
+<p class="text-gray-400 text-sm mb-4 md:mb-0">© 2025 Shipping Company. All rights reserved.</p>
+<div class="flex space-x-6">
+<a href="#" class="text-gray-400 hover:text-white text-sm">Privacy Policy</a>
+<a href="#" class="text-gray-400 hover:text-white text-sm">Terms of Service</a>
+<a href="#" class="text-gray-400 hover:text-white text-sm">Cookie Policy</a>
+</div>
+</div>
+</div>
+</div>
+</footer>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+// Track button functionality
+const trackButton = document.getElementById('track-button');
+const trackingResults = document.getElementById('tracking-results');
+const trackingInput = document.getElementById('tracking-number');
+const clearInput = document.getElementById('clear-input');
+if (trackButton) {
+trackButton.addEventListener('click', function() {
+if (trackingInput.value.trim() !== '') {
+trackingResults.classList.remove('hidden');
+// Scroll to results
+trackingResults.scrollIntoView({ behavior: 'smooth' });
+}
+});
+}
+if (trackingInput) {
+trackingInput.addEventListener('keypress', function(e) {
+if (e.key === 'Enter' && trackingInput.value.trim() !== '') {
+trackingResults.classList.remove('hidden');
+// Scroll to results
+trackingResults.scrollIntoView({ behavior: 'smooth' });
+}
+});
+}
+if (clearInput) {
+clearInput.addEventListener('click', function() {
+trackingInput.value = '';
+trackingInput.focus();
+});
+}
+});
+document.addEventListener('DOMContentLoaded', function() {
+// FAQ accordion functionality
+const faqButtons = document.querySelectorAll('.border.border-gray-200.rounded-lg button');
+faqButtons.forEach(button => {
+button.addEventListener('click', function() {
+const content = this.nextElementSibling;
+const icon = this.querySelector('i');
+if (content.classList.contains('hidden')) {
+content.classList.remove('hidden');
+icon.classList.remove('ri-add-line');
+icon.classList.add('ri-subtract-line');
+} else {
+content.classList.add('hidden');
+icon.classList.remove('ri-subtract-line');
+icon.classList.add('ri-add-line');
+}
+});
+});
+});
+document.addEventListener('DOMContentLoaded', function() {
+// Tabs functionality
+const tabs = document.querySelectorAll('.border-b.border-gray-200 button');
+tabs.forEach(tab => {
+tab.addEventListener('click', function() {
+// Remove active class from all tabs
+tabs.forEach(t => {
+t.classList.remove('text-primary', 'border-b-2', 'border-primary');
+t.classList.add('text-gray-600', 'hover:text-gray-900');
+});
+// Add active class to clicked tab
+this.classList.remove('text-gray-600', 'hover:text-gray-900');
+this.classList.add('text-primary', 'border-b-2', 'border-primary');
+});
+});
+});
+</script>
+</body>
+</html>

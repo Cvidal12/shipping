@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ship Now - ShipFast Global Shipping Solutions</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#3b82f6',secondary:'#10b981'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Inter', sans-serif;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+input[type="number"] {
+-moz-appearance: textfield;
+}
+.custom-checkbox {
+position: relative;
+display: inline-block;
+width: 20px;
+height: 20px;
+background-color: white;
+border: 2px solid #d1d5db;
+border-radius: 4px;
+cursor: pointer;
+}
+.custom-checkbox.checked {
+background-color: #3b82f6;
+border-color: #3b82f6;
+}
+.custom-checkbox.checked::after {
+content: '';
+position: absolute;
+left: 6px;
+top: 3px;
+width: 6px;
+height: 10px;
+border: solid white;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+.custom-switch {
+position: relative;
+display: inline-block;
+width: 48px;
+height: 24px;
+}
+.custom-switch-input {
+opacity: 0;
+width: 0;
+height: 0;
+}
+.custom-switch-slider {
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #e5e7eb;
+transition: .4s;
+border-radius: 24px;
+}
+.custom-switch-slider:before {
+position: absolute;
+content: "";
+height: 18px;
+width: 18px;
+left: 3px;
+bottom: 3px;
+background-color: white;
+transition: .4s;
+border-radius: 50%;
+}
+.custom-switch-input:checked + .custom-switch-slider {
+background-color: #3b82f6;
+}
+.custom-switch-input:checked + .custom-switch-slider:before {
+transform: translateX(24px);
+}
+.custom-range {
+-webkit-appearance: none;
+width: 100%;
+height: 6px;
+border-radius: 3px;
+background: #e5e7eb;
+outline: none;
+}
+.custom-range::-webkit-slider-thumb {
+-webkit-appearance: none;
+appearance: none;
+width: 18px;
+height: 18px;
+border-radius: 50%;
+background: #3b82f6;
+cursor: pointer;
+}
+.custom-range::-moz-range-thumb {
+width: 18px;
+height: 18px;
+border-radius: 50%;
+background: #3b82f6;
+cursor: pointer;
+border: none;
+}
+.step-content {
+display: none;
+}
+.step-content.active {
+display: block;
+}
+.progress-bar {
+transition: width 0.3s ease;
+}
+.custom-radio {
+position: relative;
+display: inline-block;
+width: 20px;
+height: 20px;
+background-color: white;
+border: 2px solid #d1d5db;
+border-radius: 50%;
+cursor: pointer;
+}
+.custom-radio.checked {
+border-color: #3b82f6;
+}
+.custom-radio.checked::after {
+content: '';
+position: absolute;
+left: 4px;
+top: 4px;
+width: 8px;
+height: 8px;
+background-color: #3b82f6;
+border-radius: 50%;
+}
+</style>
+</head>
+<!-- Main Content -->
+<main class="container mx-auto px-4 py-8">
+<div class="max-w-4xl mx-auto">
+<!-- Progress Bar -->
+<div class="mb-8">
+<div class="flex items-center justify-between mb-2">
+<h1 class="text-2xl font-bold text-gray-900">Ship Now</h1>
+<span class="text-sm text-gray-500" id="step-indicator">Step 1 of 7</span>
+</div>
+<div class="w-full bg-gray-200 rounded-full h-2">
+<div class="bg-primary h-2 rounded-full progress-bar" style="width: 14.28%"></div>
+</div>
+</div>
+<!-- Steps Navigation -->
+<div class="flex overflow-x-auto mb-8 pb-2 hide-scrollbar">
+<div class="flex space-x-2 min-w-max">
+<button class="step-btn active whitespace-nowrap px-4 py-2 rounded-full bg-primary text-white font-medium" data-step="1">Origin & Destination</button>
+<button class="step-btn whitespace-nowrap px-4 py-2 rounded-full bg-gray-200 text-gray-700 font-medium" data-step="2">Package Details</button>
+<button class="step-btn whitespace-nowrap px-4 py-2 rounded-full bg-gray-200 text-gray-700 font-medium" data-step="3">Service Selection</button>
+<button class="step-btn whitespace-nowrap px-4 py-2 rounded-full bg-gray-200 text-gray-700 font-medium" data-step="4">Delivery Options</button>
+<button class="step-btn whitespace-nowrap px-4 py-2 rounded-full bg-gray-200 text-gray-700 font-medium" data-step="5">Contact Information</button>
+<button class="step-btn whitespace-nowrap px-4 py-2 rounded-full bg-gray-200 text-gray-700 font-medium" data-step="6">Payment</button>
+<button class="step-btn whitespace-nowrap px-4 py-2 rounded-full bg-gray-200 text-gray-700 font-medium" data-step="7">Review & Submit</button>
+</div>
+</div>
+<!-- Form Container -->
+<div class="bg-white rounded-lg shadow-md p-6 mb-8">
+<!-- Step 1: Origin & Destination -->
+<div class="step-content active" data-step="1">
+<h2 class="text-xl font-semibold text-gray-900 mb-6">Origin & Destination</h2>
+<div class="mb-8">
+<h3 class="text-lg font-medium text-gray-800 mb-4">Origin Address</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Country/Region</label>
+<div class="relative">
+<select class="w-full pl-3 pr-8 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary appearance-none bg-white">
+<option>United States</option>
+<option>Canada</option>
+<option>United Kingdom</option>
+<option>Australia</option>
+<option>Germany</option>
+<option>France</option>
+<option>Japan</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500">
+<i class="ri-arrow-down-s-line"></i>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Postal/ZIP Code</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Enter postal code">
+</div>
+</div>
+<div class="mb-4">
+<label class="block text-gray-700 text-sm font-medium mb-2">Full Address</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary mb-2" placeholder="Street address, P.O. box, company name">
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Apartment, suite, unit, building, floor, etc.">
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">City</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Enter city">
+</div>
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">State/Province</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Enter state/province">
+</div>
+<div class="flex items-center mt-8">
+<input type="checkbox" id="saveOriginAddress" class="hidden">
+<div class="custom-checkbox mr-2"></div>
+<label for="saveOriginAddress" class="text-sm text-gray-700 cursor-pointer">Save to address book</label>
+</div>
+</div>
+</div>
+<div class="mb-6">
+<h3 class="text-lg font-medium text-gray-800 mb-4">Destination Address</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Country/Region</label>
+<div class="relative">
+<select class="w-full pl-3 pr-8 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary appearance-none bg-white">
+<option>United Kingdom</option>
+<option>United States</option>
+<option>Canada</option>
+<option>Australia</option>
+<option>Germany</option>
+<option>France</option>
+<option>Japan</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500">
+<i class="ri-arrow-down-s-line"></i>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Postal/ZIP Code</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Enter postal code">
+</div>
+</div>
+<div class="mb-4">
+<label class="block text-gray-700 text-sm font-medium mb-2">Full Address</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary mb-2" placeholder="Street address, P.O. box, company name">
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Apartment, suite, unit, building, floor, etc.">
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">City</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Enter city">
+</div>
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">State/Province</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Enter state/province">
+</div>
+<div class="flex items-center mt-8">
+<input type="checkbox" id="saveDestinationAddress" class="hidden">
+<div class="custom-checkbox mr-2"></div>
+<label for="saveDestinationAddress" class="text-sm text-gray-700 cursor-pointer">Save to address book</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 2: Package Details -->
+<div class="step-content" data-step="2">
+<h2 class="text-xl font-semibold text-gray-900 mb-6">Package Details</h2>
+<div class="mb-6">
+<h3 class="text-lg font-medium text-gray-800 mb-4">Package Type</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="border border-gray-300 rounded-lg p-4 cursor-pointer hover:border-primary hover:bg-blue-50 transition-colors package-type-option">
+<div class="flex items-start mb-2">
+<input type="radio" name="packageType" id="packageDocument" class="hidden">
+<div class="custom-radio mr-2 mt-1"></div>
+<label for="packageDocument" class="font-medium text-gray-800 cursor-pointer">Document</label>
+</div>
+<p class="text-sm text-gray-600 ml-7">Letters, documents, or paperwork without commercial value</p>
+</div>
+<div class="border border-gray-300 rounded-lg p-4 cursor-pointer hover:border-primary hover:bg-blue-50 transition-colors package-type-option">
+<div class="flex items-start mb-2">
+<input type="radio" name="packageType" id="packageParcel" class="hidden">
+<div class="custom-radio mr-2 mt-1 checked"></div>
+<label for="packageParcel" class="font-medium text-gray-800 cursor-pointer">Parcel</label>
+</div>
+<p class="text-sm text-gray-600 ml-7">Standard packages containing goods or merchandise</p>
+</div>
+<div class="border border-gray-300 rounded-lg p-4 cursor-pointer hover:border-primary hover:bg-blue-50 transition-colors package-type-option">
+<div class="flex items-start mb-2">
+<input type="radio" name="packageType" id="packageLarge" class="hidden">
+<div class="custom-radio mr-2 mt-1"></div>
+<label for="packageLarge" class="font-medium text-gray-800 cursor-pointer">Large Item</label>
+</div>
+<p class="text-sm text-gray-600 ml-7">Oversized or heavy items requiring special handling</p>
+</div>
+</div>
+</div>
+<div class="mb-6">
+<h3 class="text-lg font-medium text-gray-800 mb-4">Package Dimensions & Weight</h3>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Length (cm)</label>
+<input type="number" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="0" value="30">
+</div>
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Width (cm)</label>
+<input type="number" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="0" value="25">
+</div>
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Height (cm)</label>
+<input type="number" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="0" value="15">
+</div>
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Weight (kg)</label>
+<input type="number" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="0.0" value="2.5">
+</div>
+</div>
+</div>
+<div class="mb-6">
+<h3 class="text-lg font-medium text-gray-800 mb-4">Package Contents</h3>
+<div class="mb-4">
+<label class="block text-gray-700 text-sm font-medium mb-2">Description of Contents</label>
+<textarea class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" rows="3" placeholder="Provide a detailed description of the items in your package">Electronics - Bluetooth headphones (1), smartphone accessories (3), USB cables (2)</textarea>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Total Declared Value</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500">
+$
+</div>
+<input type="number" class="w-full pl-8 pr-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="0.00" value="149.99">
+</div>
+<p class="text-xs text-gray-500 mt-1">For customs purposes only. Does not affect insurance.</p>
+</div>
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Harmonized Code (Optional)</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="HS code for international shipments">
+<p class="text-xs text-gray-500 mt-1">Required for some international shipments.</p>
+</div>
+</div>
+</div>
+<div>
+<h3 class="text-lg font-medium text-gray-800 mb-4">Special Handling</h3>
+<div class="space-y-3">
+<div class="flex items-start">
+<input type="checkbox" id="fragileItems" class="hidden">
+<div class="custom-checkbox mr-2 mt-1"></div>
+<label for="fragileItems" class="text-sm text-gray-700 cursor-pointer">Fragile items requiring careful handling</label>
+</div>
+<div class="flex items-start">
+<input type="checkbox" id="hazardousMaterials" class="hidden">
+<div class="custom-checkbox mr-2 mt-1"></div>
+<label for="hazardousMaterials" class="text-sm text-gray-700 cursor-pointer">Contains hazardous materials (additional documentation required)</label>
+</div>
+<div class="flex items-start">
+<input type="checkbox" id="temperatureSensitive" class="hidden">
+<div class="custom-checkbox mr-2 mt-1 checked"></div>
+<label for="temperatureSensitive" class="text-sm text-gray-700 cursor-pointer">Temperature-sensitive items</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 3: Service Selection -->
+<div class="step-content" data-step="3">
+<h2 class="text-xl font-semibold text-gray-900 mb-6">Service Selection</h2>
+<div class="mb-8">
+<h3 class="text-lg font-medium text-gray-800 mb-4">Available Shipping Services</h3>
+<p class="text-sm text-gray-600 mb-4">Based on your package details and destination, the following shipping options are available:</p>
+<div class="space-y-4">
+<div class="border border-primary bg-blue-50 rounded-lg p-4 cursor-pointer hover:shadow-md transition-shadow service-option">
+<div class="flex items-start">
+<input type="radio" name="shippingService" id="serviceExpress" class="hidden" checked>
+<div class="custom-radio checked mr-3 mt-1"></div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<div>
+<label for="serviceExpress" class="font-medium text-gray-800 cursor-pointer">Express Delivery</label>
+<p class="text-sm text-gray-600">Estimated delivery: May 21-22, 2025 (2-3 business days)</p>
+</div>
+<span class="font-semibold text-gray-900">$42.99</span>
+</div>
+<div class="mt-2 flex flex-wrap gap-2">
+<span class="inline-flex items-center px-2 py-1 bg-blue-100 text-xs font-medium text-blue-800 rounded">
+<i class="ri-time-line mr-1"></i> Priority Handling
+</span>
+<span class="inline-flex items-center px-2 py-1 bg-blue-100 text-xs font-medium text-blue-800 rounded">
+<i class="ri-shield-check-line mr-1"></i> $100 Insurance Included
+</span>
+<span class="inline-flex items-center px-2 py-1 bg-blue-100 text-xs font-medium text-blue-800 rounded">
+<i class="ri-map-pin-line mr-1"></i> Real-time Tracking
+</span>
+</div>
+</div>
+</div>
+</div>
+<div class="border border-gray-300 rounded-lg p-4 cursor-pointer hover:border-primary hover:bg-blue-50 transition-colors service-option">
+<div class="flex items-start">
+<input type="radio" name="shippingService" id="serviceStandard" class="hidden">
+<div class="custom-radio mr-3 mt-1"></div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<div>
+<label for="serviceStandard" class="font-medium text-gray-800 cursor-pointer">Standard Delivery</label>
+<p class="text-sm text-gray-600">Estimated delivery: May 23-25, 2025 (4-6 business days)</p>
+</div>
+<span class="font-semibold text-gray-900">$28.50</span>
+</div>
+<div class="mt-2 flex flex-wrap gap-2">
+<span class="inline-flex items-center px-2 py-1 bg-gray-100 text-xs font-medium text-gray-800 rounded">
+<i class="ri-shield-check-line mr-1"></i> $50 Insurance Included
+</span>
+<span class="inline-flex items-center px-2 py-1 bg-gray-100 text-xs font-medium text-gray-800 rounded">
+<i class="ri-map-pin-line mr-1"></i> Standard Tracking
+</span>
+</div>
+</div>
+</div>
+</div>
+<div class="border border-gray-300 rounded-lg p-4 cursor-pointer hover:border-primary hover:bg-blue-50 transition-colors service-option">
+<div class="flex items-start">
+<input type="radio" name="shippingService" id="serviceEconomy" class="hidden">
+<div class="custom-radio mr-3 mt-1"></div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<div>
+<label for="serviceEconomy" class="font-medium text-gray-800 cursor-pointer">Economy Delivery</label>
+<p class="text-sm text-gray-600">Estimated delivery: May 26-30, 2025 (7-10 business days)</p>
+</div>
+<span class="font-semibold text-gray-900">$19.75</span>
+</div>
+<div class="mt-2 flex flex-wrap gap-2">
+<span class="inline-flex items-center px-2 py-1 bg-gray-100 text-xs font-medium text-gray-800 rounded">
+<i class="ri-map-pin-line mr-1"></i> Basic Tracking
+</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-gray-50 rounded-lg p-4">
+<h3 class="text-lg font-medium text-gray-800 mb-3">Service Comparison</h3>
+<div class="overflow-x-auto">
+<table class="min-w-full">
+<thead>
+<tr class="border-b border-gray-200">
+<th class="text-left py-3 px-4 text-sm font-medium text-gray-500">Feature</th>
+<th class="text-center py-3 px-4 text-sm font-medium text-gray-500">Economy</th>
+<th class="text-center py-3 px-4 text-sm font-medium text-gray-500">Standard</th>
+<th class="text-center py-3 px-4 text-sm font-medium text-gray-500">Express</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-gray-200">
+<td class="py-3 px-4 text-sm text-gray-700">Delivery Time</td>
+<td class="py-3 px-4 text-sm text-gray-700 text-center">7-10 days</td>
+<td class="py-3 px-4 text-sm text-gray-700 text-center">4-6 days</td>
+<td class="py-3 px-4 text-sm text-gray-700 text-center">2-3 days</td>
+</tr>
+<tr class="border-b border-gray-200">
+<td class="py-3 px-4 text-sm text-gray-700">Tracking</td>
+<td class="py-3 px-4 text-sm text-gray-700 text-center">Basic</td>
+<td class="py-3 px-4 text-sm text-gray-700 text-center">Standard</td>
+<td class="py-3 px-4 text-sm text-gray-700 text-center">Real-time</td>
+</tr>
+<tr class="border-b border-gray-200">
+<td class="py-3 px-4 text-sm text-gray-700">Insurance</td>
+<td class="py-3 px-4 text-sm text-gray-700 text-center">Not included</td>
+<td class="py-3 px-4 text-sm text-gray-700 text-center">$50</td>
+<td class="py-3 px-4 text-sm text-gray-700 text-center">$100</td>
+</tr>
+<tr class="border-b border-gray-200">
+<td class="py-3 px-4 text-sm text-gray-700">Signature Required</td>
+<td class="py-3 px-4 text-sm text-gray-700 text-center">
+<i class="ri-close-line text-red-500"></i>
+</td>
+<td class="py-3 px-4 text-sm text-gray-700 text-center">Optional</td>
+<td class="py-3 px-4 text-sm text-gray-700 text-center">
+<i class="ri-check-line text-green-500"></i>
+</td>
+</tr>
+<tr>
+<td class="py-3 px-4 text-sm text-gray-700">Price</td>
+<td class="py-3 px-4 text-sm text-gray-700 text-center">$19.75</td>
+<td class="py-3 px-4 text-sm text-gray-700 text-center">$28.50</td>
+<td class="py-3 px-4 text-sm text-gray-700 text-center">$42.99</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Step 4: Delivery Options -->
+<div class="step-content" data-step="4">
+<h2 class="text-xl font-semibold text-gray-900 mb-6">Delivery Options</h2>
+<div class="mb-8">
+<h3 class="text-lg font-medium text-gray-800 mb-4">Delivery Preferences</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Signature Requirements</label>
+<div class="relative">
+<select class="w-full pl-3 pr-8 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary appearance-none bg-white">
+<option>Signature Required</option>
+<option>No Signature Required</option>
+<option>Adult Signature Required (18+)</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500">
+<i class="ri-arrow-down-s-line"></i>
+</div>
+</div>
+<p class="text-xs text-gray-500 mt-1">Express service includes signature by default.</p>
+</div>
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Delivery Instructions</label>
+<textarea class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" rows="2" placeholder="Special instructions for the delivery driver">Please leave package at the back door if no one answers.</textarea>
+</div>
+</div>
+</div>
+<div class="mb-8">
+<h3 class="text-lg font-medium text-gray-800 mb-4">Insurance Options</h3>
+<p class="text-sm text-gray-600 mb-4">Your Express service includes $100 of insurance coverage. You can increase coverage for valuable items.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Additional Insurance</label>
+<div class="relative">
+<select class="w-full pl-3 pr-8 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary appearance-none bg-white">
+<option>Standard Coverage ($100)</option>
+<option>$250 Coverage (+$3.99)</option>
+<option>$500 Coverage (+$7.99)</option>
+<option>$1000 Coverage (+$12.99)</option>
+<option>$2000 Coverage (+$19.99)</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500">
+<i class="ri-arrow-down-s-line"></i>
+</div>
+</div>
+</div>
+<div class="flex items-center">
+<input type="checkbox" id="declareHighValue" class="hidden">
+<div class="custom-checkbox mr-2 checked"></div>
+<label for="declareHighValue" class="text-sm text-gray-700 cursor-pointer">I confirm that the declared value is accurate for insurance purposes</label>
+</div>
+</div>
+</div>
+<div class="mb-8">
+<h3 class="text-lg font-medium text-gray-800 mb-4">Additional Services</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="border border-gray-300 rounded-lg p-4 hover:border-primary hover:bg-blue-50 transition-colors cursor-pointer">
+<div class="flex items-start">
+<input type="checkbox" id="saturdayDelivery" class="hidden">
+<div class="custom-checkbox mr-2 mt-1"></div>
+<div>
+<label for="saturdayDelivery" class="font-medium text-gray-800 cursor-pointer">Saturday Delivery</label>
+<p class="text-sm text-gray-600">Deliver on Saturday for an additional fee of $12.50</p>
+</div>
+</div>
+</div>
+<div class="border border-gray-300 rounded-lg p-4 hover:border-primary hover:bg-blue-50 transition-colors cursor-pointer">
+<div class="flex items-start">
+<input type="checkbox" id="carbonNeutral" class="hidden">
+<div class="custom-checkbox mr-2 mt-1 checked"></div>
+<div>
+<label for="carbonNeutral" class="font-medium text-gray-800 cursor-pointer">Carbon-neutral Shipping</label>
+<p class="text-sm text-gray-600">Offset the carbon footprint of your shipment for $1.99</p>
+</div>
+</div>
+</div>
+<div class="border border-gray-300 rounded-lg p-4 hover:border-primary hover:bg-blue-50 transition-colors cursor-pointer">
+<div class="flex items-start">
+<input type="checkbox" id="packagePhoto" class="hidden">
+<div class="custom-checkbox mr-2 mt-1"></div>
+<div>
+<label for="packagePhoto" class="font-medium text-gray-800 cursor-pointer">Delivery Photo Confirmation</label>
+<p class="text-sm text-gray-600">Receive a photo of your delivered package for $0.99</p>
+</div>
+</div>
+</div>
+<div class="border border-gray-300 rounded-lg p-4 hover:border-primary hover:bg-blue-50 transition-colors cursor-pointer">
+<div class="flex items-start">
+<input type="checkbox" id="deliveryWindow" class="hidden">
+<div class="custom-checkbox mr-2 mt-1 checked"></div>
+<div>
+<label for="deliveryWindow" class="font-medium text-gray-800 cursor-pointer">Specific Delivery Window</label>
+<p class="text-sm text-gray-600">Request delivery during a specific time window for $8.99</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div>
+<h3 class="text-lg font-medium text-gray-800 mb-4">Notifications</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center">
+<div class="w-10 h-10 flex items-center justify-center text-primary">
+<i class="ri-mail-line ri-lg"></i>
+</div>
+<span class="text-gray-700">Email Notifications</span>
+</div>
+<label class="custom-switch">
+<input type="checkbox" class="custom-switch-input" checked>
+<span class="custom-switch-slider"></span>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center">
+<div class="w-10 h-10 flex items-center justify-center text-primary">
+<i class="ri-smartphone-line ri-lg"></i>
+</div>
+<span class="text-gray-700">SMS Notifications</span>
+</div>
+<label class="custom-switch">
+<input type="checkbox" class="custom-switch-input" checked>
+<span class="custom-switch-slider"></span>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center">
+<div class="w-10 h-10 flex items-center justify-center text-primary">
+<i class="ri-notification-3-line ri-lg"></i>
+</div>
+<span class="text-gray-700">Delivery Exceptions Alerts</span>
+</div>
+<label class="custom-switch">
+<input type="checkbox" class="custom-switch-input" checked>
+<span class="custom-switch-slider"></span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 5: Contact Information -->
+<div class="step-content" data-step="5">
+<h2 class="text-xl font-semibold text-gray-900 mb-6">Contact Information</h2>
+<div class="mb-8">
+<h3 class="text-lg font-medium text-gray-800 mb-4">Sender Information</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Full Name</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Enter your full name" value="James Wilson">
+</div>
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Company Name (Optional)</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Enter company name" value="Techwave Solutions">
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Email Address</label>
+<input type="email" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Enter your email address" value="james.wilson@techwave.com">
+</div>
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Phone Number</label>
+<input type="tel" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Enter your phone number" value="+1 (202) 555-7890">
+</div>
+</div>
+<div class="flex items-center mt-2">
+<input type="checkbox" id="saveSenderInfo" class="hidden">
+<div class="custom-checkbox mr-2 checked"></div>
+<label for="saveSenderInfo" class="text-sm text-gray-700 cursor-pointer">Save sender information for future shipments</label>
+</div>
+</div>
+<div class="mb-8">
+<h3 class="text-lg font-medium text-gray-800 mb-4">Recipient Information</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Full Name</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Enter recipient's full name" value="Olivia Parker">
+</div>
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Company Name (Optional)</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Enter company name" value="Global Innovations Ltd">
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Email Address</label>
+<input type="email" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Enter recipient's email address" value="olivia.parker@globalinnovations.co.uk">
+</div>
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Phone Number</label>
+<input type="tel" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Enter recipient's phone number" value="+44 20 7946 0892">
+</div>
+</div>
+<div class="flex items-center mt-2">
+<input type="checkbox" id="saveRecipientInfo" class="hidden">
+<div class="custom-checkbox mr-2 checked"></div>
+<label for="saveRecipientInfo" class="text-sm text-gray-700 cursor-pointer">Save recipient information for future shipments</label>
+</div>
+</div>
+<div>
+<h3 class="text-lg font-medium text-gray-800 mb-4">Address Type</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<p class="text-sm font-medium text-gray-700 mb-3">Origin Address Type</p>
+<div class="flex space-x-4">
+<div class="flex items-center">
+<input type="radio" name="originAddressType" id="originResidential" class="hidden" checked>
+<div class="custom-radio mr-2 checked"></div>
+<label for="originResidential" class="text-sm text-gray-700 cursor-pointer">Residential</label>
+</div>
+<div class="flex items-center">
+<input type="radio" name="originAddressType" id="originBusiness" class="hidden">
+<div class="custom-radio mr-2"></div>
+<label for="originBusiness" class="text-sm text-gray-700 cursor-pointer">Business</label>
+</div>
+</div>
+</div>
+<div>
+<p class="text-sm font-medium text-gray-700 mb-3">Destination Address Type</p>
+<div class="flex space-x-4">
+<div class="flex items-center">
+<input type="radio" name="destAddressType" id="destResidential" class="hidden">
+<div class="custom-radio mr-2"></div>
+<label for="destResidential" class="text-sm text-gray-700 cursor-pointer">Residential</label>
+</div>
+<div class="flex items-center">
+<input type="radio" name="destAddressType" id="destBusiness" class="hidden" checked>
+<div class="custom-radio mr-2 checked"></div>
+<label for="destBusiness" class="text-sm text-gray-700 cursor-pointer">Business</label>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 6: Payment -->
+<div class="step-content" data-step="6">
+<h2 class="text-xl font-semibold text-gray-900 mb-6">Payment</h2>
+<div class="mb-8">
+<h3 class="text-lg font-medium text-gray-800 mb-4">Order Summary</h3>
+<div class="bg-gray-50 rounded-lg p-4 mb-6">
+<div class="space-y-3">
+<div class="flex justify-between">
+<span class="text-gray-700">Express Delivery</span>
+<span class="text-gray-900">$42.99</span>
+</div>
+<div class="flex justify-between">
+<span class="text-gray-700">Carbon-neutral Shipping</span>
+<span class="text-gray-900">$1.99</span>
+</div>
+<div class="flex justify-between">
+<span class="text-gray-700">Specific Delivery Window</span>
+<span class="text-gray-900">$8.99</span>
+</div>
+<div class="flex justify-between">
+<span class="text-gray-700">Insurance (Standard $100)</span>
+<span class="text-gray-900">Included</span>
+</div>
+<div class="border-t border-gray-300 pt-2 mt-2">
+<div class="flex justify-between font-medium">
+<span class="text-gray-800">Subtotal</span>
+<span class="text-gray-900">$53.97</span>
+</div>
+</div>
+<div class="flex justify-between">
+<span class="text-gray-700">Tax</span>
+<span class="text-gray-900">$4.32</span>
+</div>
+<div class="border-t border-gray-300 pt-2 mt-2">
+<div class="flex justify-between font-semibold">
+<span class="text-gray-900">Total</span>
+<span class="text-gray-900">$58.29</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mb-6">
+<label class="block text-gray-700 text-sm font-medium mb-2">Promo Code</label>
+<div class="flex">
+<input type="text" class="flex-grow px-3 py-2 border border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Enter promo code">
+<button class="bg-primary text-white px-4 py-2 rounded-r !rounded-button font-medium hover:bg-primary/90 transition-colors whitespace-nowrap">Apply</button>
+</div>
+</div>
+</div>
+<div class="mb-8">
+<h3 class="text-lg font-medium text-gray-800 mb-4">Payment Method</h3>
+<div class="space-y-4 mb-6">
+<div class="border border-primary bg-blue-50 rounded-lg p-4 cursor-pointer payment-method">
+<div class="flex items-start">
+<input type="radio" name="paymentMethod" id="paymentCard" class="hidden" checked>
+<div class="custom-radio checked mr-3 mt-1"></div>
+<div class="flex-grow">
+<label for="paymentCard" class="font-medium text-gray-800 cursor-pointer">Credit/Debit Card</label>
+<div class="flex space-x-2 mt-2">
+<div class="w-10 h-6 flex items-center justify-center bg-white rounded shadow-sm">
+<i class="ri-visa-fill text-blue-700"></i>
+</div>
+<div class="w-10 h-6 flex items-center justify-center bg-white rounded shadow-sm">
+<i class="ri-mastercard-fill text-red-500"></i>
+</div>
+<div class="w-10 h-6 flex items-center justify-center bg-white rounded shadow-sm">
+<i class="ri-american-express-fill text-blue-500"></i>
+</div>
+<div class="w-10 h-6 flex items-center justify-center bg-white rounded shadow-sm">
+<i class="ri-bank-card-fill text-gray-700"></i>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="border border-gray-300 rounded-lg p-4 cursor-pointer hover:border-primary hover:bg-blue-50 transition-colors payment-method">
+<div class="flex items-start">
+<input type="radio" name="paymentMethod" id="paymentPaypal" class="hidden">
+<div class="custom-radio mr-3 mt-1"></div>
+<div class="flex-grow">
+<label for="paymentPaypal" class="font-medium text-gray-800 cursor-pointer">PayPal</label>
+<p class="text-sm text-gray-600">Pay securely using your PayPal account</p>
+</div>
+<div class="w-10 h-6 flex items-center justify-center">
+<i class="ri-paypal-fill text-blue-600 ri-lg"></i>
+</div>
+</div>
+</div>
+<div class="border border-gray-300 rounded-lg p-4 cursor-pointer hover:border-primary hover:bg-blue-50 transition-colors payment-method">
+<div class="flex items-start">
+<input type="radio" name="paymentMethod" id="paymentApplePay" class="hidden">
+<div class="custom-radio mr-3 mt-1"></div>
+<div class="flex-grow">
+<label for="paymentApplePay" class="font-medium text-gray-800 cursor-pointer">Apple Pay</label>
+<p class="text-sm text-gray-600">Fast and secure payment with Apple Pay</p>
+</div>
+<div class="w-10 h-6 flex items-center justify-center">
+<i class="ri-apple-fill text-black ri-lg"></i>
+</div>
+</div>
+</div>
+</div>
+<div id="cardDetails" class="border border-gray-300 rounded-lg p-4">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Cardholder Name</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Name as it appears on card">
+</div>
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Card Number</label>
+<div class="relative">
+<input type="text" class="w-full pl-3 pr-10 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="•••• •••• •••• ••••">
+<div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500">
+<i class="ri-bank-card-line"></i>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="col-span-1">
+<label class="block text-gray-700 text-sm font-medium mb-2">Expiry Month</label>
+<div class="relative">
+<select class="w-full pl-3 pr-8 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary appearance-none bg-white">
+<option>01</option>
+<option>02</option>
+<option>03</option>
+<option>04</option>
+<option>05</option>
+<option selected>06</option>
+<option>07</option>
+<option>08</option>
+<option>09</option>
+<option>10</option>
+<option>11</option>
+<option>12</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500">
+<i class="ri-arrow-down-s-line"></i>
+</div>
+</div>
+</div>
+<div class="col-span-1">
+<label class="block text-gray-700 text-sm font-medium mb-2">Expiry Year</label>
+<div class="relative">
+<select class="w-full pl-3 pr-8 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary appearance-none bg-white">
+<option>2025</option>
+<option>2026</option>
+<option>2027</option>
+<option>2028</option>
+<option>2029</option>
+<option>2030</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500">
+<i class="ri-arrow-down-s-line"></i>
+</div>
+</div>
+</div>
+<div class="col-span-2">
+<label class="block text-gray-700 text-sm font-medium mb-2">Security Code (CVV)</label>
+<div class="relative">
+<input type="text" class="w-full pl-3 pr-10 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="•••" maxlength="4">
+<div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500">
+<i class="ri-question-line"></i>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div>
+<h3 class="text-lg font-medium text-gray-800 mb-4">Billing Address</h3>
+<div class="mb-4">
+<div class="flex items-center mb-4">
+<input type="checkbox" id="sameAsOrigin" class="hidden" checked>
+<div class="custom-checkbox mr-2 checked"></div>
+<label for="sameAsOrigin" class="text-sm text-gray-700 cursor-pointer">Same as origin address</label>
+</div>
+<div id="billingAddressFields" class="hidden">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Country/Region</label>
+<div class="relative">
+<select class="w-full pl-3 pr-8 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary appearance-none bg-white">
+<option>United States</option>
+<option>Canada</option>
+<option>United Kingdom</option>
+<option>Australia</option>
+<option>Germany</option>
+<option>France</option>
+<option>Japan</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500">
+<i class="ri-arrow-down-s-line"></i>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Postal/ZIP Code</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Enter postal code">
+</div>
+</div>
+<div class="mb-4">
+<label class="block text-gray-700 text-sm font-medium mb-2">Full Address</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary mb-2" placeholder="Street address, P.O. box, company name">
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Apartment, suite, unit, building, floor, etc.">
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">City</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Enter city">
+</div>
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">State/Province</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Enter state/province">
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 7: Review & Submit -->
+<div class="step-content" data-step="7">
+<h2 class="text-xl font-semibold text-gray-900 mb-6">Review & Submit</h2>
+<div class="mb-8">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-lg font-medium text-gray-800">Shipment Summary</h3>
+<span class="text-sm text-primary font-medium cursor-pointer">Print Summary</span>
+</div>
+<div class="bg-gray-50 rounded-lg p-6 mb-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<h4 class="text-sm font-semibold text-gray-500 uppercase mb-2">Origin</h4>
+<div class="text-gray-800">
+<p class="font-medium">James Wilson</p>
+<p>Techwave Solutions</p>
+<p>1234 Innovation Drive</p>
+<p>San Francisco, CA 94107</p>
+<p>United States</p>
+<p class="mt-2">
+<span class="text-gray-600">Email:</span> james.wilson@techwave.com
+</p>
+<p>
+<span class="text-gray-600">Phone:</span> +1 (202) 555-7890
+</p>
+</div>
+</div>
+<div>
+<h4 class="text-sm font-semibold text-gray-500 uppercase mb-2">Destination</h4>
+<div class="text-gray-800">
+<p class="font-medium">Olivia Parker</p>
+<p>Global Innovations Ltd</p>
+<p>45 Highfield Business Park</p>
+<p>London, SW1A 1AA</p>
+<p>United Kingdom</p>
+<p class="mt-2">
+<span class="text-gray-600">Email:</span> olivia.parker@globalinnovations.co.uk
+</p>
+<p>
+<span class="text-gray-600">Phone:</span> +44 20 7946 0892
+</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-gray-50 rounded-lg p-6 mb-6">
+<h4 class="text-sm font-semibold text-gray-500 uppercase mb-4">Package Details</h4>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<div class="mb-4">
+<span class="text-gray-600">Package Type:</span>
+<span class="text-gray-800 ml-2">Parcel</span>
+</div>
+<div class="mb-4">
+<span class="text-gray-600">Dimensions:</span>
+<span class="text-gray-800 ml-2">30 × 25 × 15 cm</span>
+</div>
+<div class="mb-4">
+<span class="text-gray-600">Weight:</span>
+<span class="text-gray-800 ml-2">2.5 kg</span>
+</div>
+<div>
+<span class="text-gray-600">Declared Value:</span>
+<span class="text-gray-800 ml-2">$149.99</span>
+</div>
+</div>
+<div>
+<div class="mb-4">
+<span class="text-gray-600">Contents:</span>
+<span class="text-gray-800 ml-2">Electronics - Bluetooth headphones (1), smartphone accessories (3), USB cables (2)</span>
+</div>
+<div>
+<span class="text-gray-600">Special Handling:</span>
+<ul class="text-gray-800 mt-1 ml-5 list-disc">
+<li>Temperature-sensitive items</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-gray-50 rounded-lg p-6 mb-6">
+<h4 class="text-sm font-semibold text-gray-500 uppercase mb-4">Shipping Service & Options</h4>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<div class="mb-4">
+<span class="text-gray-600">Service:</span>
+<span class="text-gray-800 ml-2 font-medium">Express Delivery</span>
+</div>
+<div class="mb-4">
+<span class="text-gray-600">Estimated Delivery:</span>
+<span class="text-gray-800 ml-2">May 21-22, 2025 (2-3 business days)</span>
+</div>
+<div>
+<span class="text-gray-600">Insurance Coverage:</span>
+<span class="text-gray-800 ml-2">Standard ($100)</span>
+</div>
+</div>
+<div>
+<div class="mb-4">
+<span class="text-gray-600">Additional Services:</span>
+<ul class="text-gray-800 mt-1 ml-5 list-disc">
+<li>Carbon-neutral Shipping</li>
+<li>Specific Delivery Window</li>
+</ul>
+</div>
+<div>
+<span class="text-gray-600">Delivery Instructions:</span>
+<p class="text-gray-800 mt-1">Please leave package at the back door if no one answers.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-gray-50 rounded-lg p-6">
+<h4 class="text-sm font-semibold text-gray-500 uppercase mb-4">Payment Summary</h4>
+<div class="space-y-3 mb-6">
+<div class="flex justify-between">
+<span class="text-gray-700">Express Delivery</span>
+<span class="text-gray-900">$42.99</span>
+</div>
+<div class="flex justify-between">
+<span class="text-gray-700">Carbon-neutral Shipping</span>
+<span class="text-gray-900">$1.99</span>
+</div>
+<div class="flex justify-between">
+<span class="text-gray-700">Specific Delivery Window</span>
+<span class="text-gray-900">$8.99</span>
+</div>
+<div class="flex justify-between">
+<span class="text-gray-700">Insurance (Standard $100)</span>
+<span class="text-gray-900">Included</span>
+</div>
+<div class="border-t border-gray-300 pt-2 mt-2">
+<div class="flex justify-between font-medium">
+<span class="text-gray-800">Subtotal</span>
+<span class="text-gray-900">$53.97</span>
+</div>
+</div>
+<div class="flex justify-between">
+<span class="text-gray-700">Tax</span>
+<span class="text-gray-900">$4.32</span>
+</div>
+<div class="border-t border-gray-300 pt-2 mt-2">
+<div class="flex justify-between font-semibold">
+<span class="text-gray-900">Total</span>
+<span class="text-gray-900">$58.29</span>
+</div>
+</div>
+</div>
+<div>
+<span class="text-gray-600">Payment Method:</span>
+<span class="text-gray-800 ml-2">Credit/Debit Card (ending in ****)</span>
+</div>
+</div>
+</div>
+<div class="mb-8">
+<div class="flex items-start mb-6">
+<input type="checkbox" id="termsAgree" class="hidden">
+<div class="custom-checkbox mr-2 mt-1"></div>
+<label for="termsAgree" class="text-sm text-gray-700 cursor-pointer">
+I agree to the <a href="#" class="text-primary hover:underline">Terms and Conditions</a> and <a href="#" class="text-primary hover:underline">Privacy Policy</a>. I confirm that my shipment does not contain prohibited items and all information provided is accurate.
+</label>
+</div>
+<div class="flex items-start">
+<input type="checkbox" id="marketingAgree" class="hidden">
+<div class="custom-checkbox mr-2 mt-1 checked"></div>
+<label for="marketingAgree" class="text-sm text-gray-700 cursor-pointer">
+I would like to receive shipping updates, promotions, and news via email. You can unsubscribe at any time.
+</label>
+</div>
+</div>
+</div>
+<!-- Navigation Buttons -->
+<div class="flex justify-between mt-8">
+<button id="prevBtn" class="px-6 py-2 border border-gray-300 rounded !rounded-button text-gray-700 font-medium hover:bg-gray-50 transition-colors whitespace-nowrap">Previous</button>
+<div>
+<button id="saveBtn" class="px-6 py-2 border border-gray-300 rounded !rounded-button text-gray-700 font-medium hover:bg-gray-50 transition-colors whitespace-nowrap mr-2">Save Draft</button>
+<button id="nextBtn" class="px-6 py-2 bg-primary text-white rounded !rounded-button font-medium hover:bg-primary/90 transition-colors whitespace-nowrap">Next</button>
+</div>
+</div>
+</div>
+<!-- Help Section -->
+<div class="bg-white rounded-lg shadow-md p-6">
+<h3 class="text-lg font-medium text-gray-800 mb-4">Need Help?</h3>
+<p class="text-gray-600 mb-4">Our shipping experts are available to assist you with your shipment.</p>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<a href="#" class="flex items-center text-primary hover:text-primary/80 transition-colors">
+<div class="w-10 h-10 flex items-center justify-center">
+<i class="ri-customer-service-2-line ri-lg"></i>
+</div>
+<span>Live Chat Support</span>
+</a>
+<a href="#" class="flex items-center text-primary hover:text-primary/80 transition-colors">
+<div class="w-10 h-10 flex items-center justify-center">
+<i class="ri-phone-line ri-lg"></i>
+</div>
+<span>Call Us: +1 (800) 123-4567</span>
+</a>
+<a href="#" class="flex items-center text-primary hover:text-primary/80 transition-colors">
+<div class="w-10 h-10 flex items-center justify-center">
+<i class="ri-question-line ri-lg"></i>
+</div>
+<span>Shipping FAQ</span>
+</a>
+</div>
+</div>
+</div>
+</main>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+// Mobile menu toggle
+const menuButton = document.querySelector('.ri-menu-line').parentElement;
+const nav = document.querySelector('nav');
+menuButton.addEventListener('click', function() {
+if (nav.classList.contains('hidden')) {
+nav.classList.remove('hidden');
+nav.classList.add('flex', 'flex-col', 'absolute', 'top-16', 'left-0', 'right-0', 'bg-white', 'shadow-lg', 'p-4', 'space-y-4', 'z-50');
+} else {
+nav.classList.add('hidden');
+nav.classList.remove('flex', 'flex-col', 'absolute', 'top-16', 'left-0', 'right-0', 'bg-white', 'shadow-lg', 'p-4', 'space-y-4', 'z-50');
+}
+});
+});
+document.addEventListener('DOMContentLoaded', function() {
+// Custom checkbox functionality
+const customCheckboxes = document.querySelectorAll('.custom-checkbox');
+customCheckboxes.forEach(checkbox => {
+checkbox.addEventListener('click', function() {
+this.classList.toggle('checked');
+const input = this.previousElementSibling;
+if (input && input.type === 'checkbox') {
+input.checked = !input.checked;
+}
+});
+});
+});
+document.addEventListener('DOMContentLoaded', function() {
+// Custom radio functionality
+const customRadios = document.querySelectorAll('.custom-radio');
+customRadios.forEach(radio => {
+radio.addEventListener('click', function() {
+const input = this.previousElementSibling;
+if (input && input.type === 'radio') {
+input.checked = true;
+// Uncheck all other radios in the same group
+const name = input.name;
+document.querySelectorAll(`input[name="${name}"]`).forEach(radioInput => {
+const customRadio = radioInput.nextElementSibling;
+if (customRadio && customRadio.classList.contains('custom-radio')) {
+if (radioInput.checked) {
+customRadio.classList.add('checked');
+} else {
+customRadio.classList.remove('checked');
+}
+}
+});
+}
+});
+});
+});
+document.addEventListener('DOMContentLoaded', function() {
+// Multi-step form navigation
+let currentStep = 1;
+const totalSteps = 7;
+const stepContents = document.querySelectorAll('.step-content');
+const stepButtons = document.querySelectorAll('.step-btn');
+const nextBtn = document.getElementById('nextBtn');
+const prevBtn = document.getElementById('prevBtn');
+const saveBtn = document.getElementById('saveBtn');
+const stepIndicator = document.getElementById('step-indicator');
+const progressBar = document.querySelector('.progress-bar');
+// Show step
+function showStep(step) {
+// Hide all steps
+stepContents.forEach(content => {
+content.classList.remove('active');
+});
+// Show current step
+document.querySelector(`.step-content[data-step="${step}"]`).classList.add('active');
+// Update step buttons
+stepButtons.forEach(btn => {
+const btnStep = parseInt(btn.dataset.step);
+btn.classList.remove('active', 'bg-primary', 'text-white', 'bg-gray-200', 'text-gray-700');
+if (btnStep === step) {
+btn.classList.add('active', 'bg-primary', 'text-white');
+} else {
+btn.classList.add('bg-gray-200', 'text-gray-700');
+}
+});
+// Update progress bar
+const progress = (step / totalSteps) * 100;
+progressBar.style.width = `${progress}%`;
+// Update step indicator
+stepIndicator.textContent = `Step ${step} of ${totalSteps}`;
+// Show/hide prev button
+if (step === 1) {
+prevBtn.classList.add('invisible');
+} else {
+prevBtn.classList.remove('invisible');
+}
+// Change next button text on last step
+if (step === totalSteps) {
+nextBtn.textContent = 'Submit Order';
+nextBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+nextBtn.classList.remove('bg-primary', 'hover:bg-primary/90');
+} else {
+nextBtn.textContent = 'Next';
+nextBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+nextBtn.classList.add('bg-primary', 'hover:bg-primary/90');
+}
+}
+// Step button click
+stepButtons.forEach(btn => {
+btn.addEventListener('click', function() {
+const step = parseInt(this.dataset.step);
+currentStep = step;
+showStep(step);
+});
+});
+// Next button click
+nextBtn.addEventListener('click', function() {
+if (currentStep < totalSteps) {
+currentStep++;
+showStep(currentStep);
+} else {
+// Submit form
+alert('Your shipment has been submitted successfully! Tracking number: SF25051912345');
+}
+});
+// Previous button click
+prevBtn.addEventListener('click', function() {
+if (currentStep > 1) {
+currentStep--;
+showStep(currentStep);
+}
+});
+// Save button click
+saveBtn.addEventListener('click', function() {
+alert('Your shipment has been saved as a draft. You can continue later.');
+});
+// Package type selection
+const packageTypeOptions = document.querySelectorAll('.package-type-option');
+packageTypeOptions.forEach(option => {
+option.addEventListener('click', function() {
+const radio = this.querySelector('input[type="radio"]');
+const customRadio = this.querySelector('.custom-radio');
+// Uncheck all other options
+document.querySelectorAll('input[name="packageType"]').forEach(input => {
+input.checked = false;
+input.nextElementSibling.classList.remove('checked');
+});
+// Check this option
+radio.checked = true;
+customRadio.classList.add('checked');
+// Highlight selected option
+packageTypeOptions.forEach(opt => {
+opt.classList.remove('border-primary', 'bg-blue-50');
+opt.classList.add('border-gray-300');
+});
+this.classList.remove('border-gray-300');
+this.classList.add('border-primary', 'bg-blue-50');
+});
+});
+// Service selection
+const serviceOptions = document.querySelectorAll('.service-option');
+serviceOptions.forEach(option => {
+option.addEventListener('click', function() {
+const radio = this.querySelector('input[type="radio"]');
+const customRadio = this.querySelector('.custom-radio');
+// Uncheck all other options
+document.querySelectorAll('input[name="shippingService"]').forEach(input => {
+input.checked = false;
+input.nextElementSibling.classList.remove('checked');
+});
+// Check this option
+radio.checked = true;
+customRadio.classList.add('checked');
+// Highlight selected option
+serviceOptions.forEach(opt => {
+opt.classList.remove('border-primary', 'bg-blue-50');
+opt.classList.add('border-gray-300');
+});
+this.classList.remove('border-gray-300');
+this.classList.add('border-primary', 'bg-blue-50');
+});
+});
+// Payment method selection
+const paymentMethods = document.querySelectorAll('.payment-method');
+paymentMethods.forEach(method => {
+method.addEventListener('click', function() {
+const radio = this.querySelector('input[type="radio"]');
+const customRadio = this.querySelector('.custom-radio');
+// Uncheck all other options
+document.querySelectorAll('input[name="paymentMethod"]').forEach(input => {
+input.checked = false;
+input.nextElementSibling.classList.remove('checked');
+});
+// Check this option
+radio.checked = true;
+customRadio.classList.add('checked');
+// Highlight selected option
+paymentMethods.forEach(opt => {
+opt.classList.remove('border-primary', 'bg-blue-50');
+opt.classList.add('border-gray-300');
+});
+this.classList.remove('border-gray-300');
+this.classList.add('border-primary', 'bg-blue-50');
+// Show/hide card details
+const cardDetails = document.getElementById('cardDetails');
+if (radio.id === 'paymentCard') {
+cardDetails.classList.remove('hidden');
+} else {
+cardDetails.classList.add('hidden');
+}
+});
+});
+// Billing address toggle
+const sameAsOriginCheckbox = document.getElementById('sameAsOrigin');
+const sameAsOriginCustomCheckbox = sameAsOriginCheckbox.nextElementSibling;
+const billingAddressFields = document.getElementById('billingAddressFields');
+sameAsOriginCustomCheckbox.addEventListener('click', function() {
+if (sameAsOriginCheckbox.checked) {
+billingAddressFields.classList.add('hidden');
+} else {
+billingAddressFields.classList.remove('hidden');
+}
+});
+// Initialize form
+showStep(currentStep);
+});
+</script>
+</body>
+</html>
